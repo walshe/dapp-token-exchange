@@ -5,6 +5,10 @@ require('dotenv').config();
 const HDWalletProvider = require('truffle-hdwallet-provider-privkey')
 console.log(HDWalletProvider)
 const privateKeys = process.env.PRIVATE_KEYS;
+
+console.log("Emmett Test : " + process.env)
+console.log("Emmett Test INFURA_API_KEY: " + process.env.INFURA_API_KEY)
+
 module.exports = {
   networks: {
     development: {
