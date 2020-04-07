@@ -25,12 +25,14 @@ import Token from '../abis/Token.json'
 import Exchange from '../abis/Exchange.json'
 import { ETHER_ADDRESS } from '../helpers'
 
+//lload web3
 export const loadWeb3 = (dispatch) => {
   const web3 = new Web3(Web3.givenProvider || 'http://localhost:7545')
   dispatch(web3Loaded(web3))
   return web3
 }
 
+//load selected account
 export const loadAccount = async (web3, dispatch) => {
   const accounts = await web3.eth.getAccounts()
   const account = accounts[0]
@@ -38,6 +40,7 @@ export const loadAccount = async (web3, dispatch) => {
   return account
 }
 
+//load our Token smart contract
 export const loadToken = async (web3, networkId, dispatch) => {
   try {
     const token = web3.eth.Contract(Token.abi, Token.networks[networkId].address)
@@ -49,6 +52,7 @@ export const loadToken = async (web3, networkId, dispatch) => {
   }
 }
 
+//load the exchance smart contract
 export const loadExchange = async (web3, networkId, dispatch) => {
   try {
     const exchange = web3.eth.Contract(Exchange.abi, Exchange.networks[networkId].address)
@@ -59,6 +63,7 @@ export const loadExchange = async (web3, networkId, dispatch) => {
     return null
   }
 }
+
 
 export const loadAllOrders = async (exchange, dispatch) => {
   // Fetch cancelled orders with the "Cancel" event stream
@@ -72,7 +77,7 @@ export const loadAllOrders = async (exchange, dispatch) => {
   const tradeStream = await exchange.getPastEvents('Trade', { fromBlock: 0, toBlock: 'latest' })
   // Format filled orders
   const filledOrders = tradeStream.map((event) => event.returnValues)
-  // Add cancelled orders to the redux store
+  // Add filled orders to the redux store
   dispatch(filledOrdersLoaded(filledOrders))
 
   // Load order stream
@@ -83,31 +88,41 @@ export const loadAllOrders = async (exchange, dispatch) => {
   dispatch(allOrdersLoaded(allOrders))
 }
 
+
+//listen to the events and update redux on events
 export const subscribeToEvents = async (exchange, dispatch) => {
+
   exchange.events.Cancel({}, (error, event) => {
+    alert('got an event!!')
     dispatch(orderCancelled(event.returnValues))
   })
 
   exchange.events.Trade({}, (error, event) => {
+    alert('got an event!!')
     dispatch(orderFilled(event.returnValues))
   })
 
   exchange.events.Deposit({}, (error, event) => {
+    alert('got an event!!')
     dispatch(balancesLoaded())
   })
 
   exchange.events.Withdraw({}, (error, event) => {
+    alert('got an event!!')
     dispatch(balancesLoaded())
   })
 
   exchange.events.Order({}, (error, event) => {
+    alert('got an event!!')
     dispatch(orderMade(event.returnValues))
   })
 }
 
+//cacnel an order
 export const cancelOrder = (dispatch, exchange, order, account) => {
   exchange.methods.cancelOrder(order.id).send({ from: account })
   .on('transactionHash', (hash) => {
+      //so we can display loading spinner
      dispatch(orderCancelling())
   })
   .on('error', (error) => {
@@ -119,6 +134,7 @@ export const cancelOrder = (dispatch, exchange, order, account) => {
 export const fillOrder = (dispatch, exchange, order, account) => {
   exchange.methods.fillOrder(order.id).send({ from: account })
   .on('transactionHash', (hash) => {
+    //so we can display loading spinner
      dispatch(orderFilling())
   })
   .on('error', (error) => {

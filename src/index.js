@@ -6,6 +6,8 @@ import App from './components/App'
 import configureStore from './store/configureStore'
 import * as serviceWorker from './serviceWorker'
 
+//The <Provider /> makes the Redux store available to any nested components that have been wrapped in the connect() function
+
 ReactDOM.render(
   <Provider store={configureStore()}>
     <App />

@@ -1,7 +1,44 @@
+
+
+
+## Token is our ERC-20 smart contract for our "DApp" cryptocurrency token
+
+Exchange is an exchange allowing user to :
+
+	- deposit/withdraw ether or Dapp tokens and view balances of each in "Balance" view
+
+	- make an order for Ether/Dapp token and the amount they are prepared to pay for it in the other currency in "New Order" view
+
+	- fill an order from the order book in "Order Book" view
+
+	- view their trades and orders in "My Transactions" view
+
+	- view historic prices in "Price Chart" view
+
+	- view all trades that have occured in the excahnge
+
+
+
+## Tech	
+	
+	Solidity
+
+	Truffle
+
+	Node
+
+	Web3
+
+	Infuro
+
+	React
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-
-
 
 
 

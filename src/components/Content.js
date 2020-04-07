@@ -11,10 +11,12 @@ import NewOrder from './NewOrder'
 
 class Content extends Component {
   componentWillMount() {
+    //called before render
     this.loadBlockchainData(this.props)
   }
 
   async loadBlockchainData(props) {
+    //destructuring assignment
     const { dispatch, exchange } = props
     await loadAllOrders(exchange, dispatch)
     await subscribeToEvents(exchange, dispatch)
