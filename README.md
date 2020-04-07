@@ -1,7 +1,9 @@
 
 
 
-## Token is our ERC-20 smart contract for our "DApp" cryptocurrency token
+## Description
+
+Token is a ERC-20 smart contract for a "DApp" Ethereum based token
 
 Exchange is an exchange allowing user to :
 
